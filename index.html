@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>To-Do List App</title>
+	<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+	<h1>To-Do List App</h1>
+	<input type="text" id="task-input" placeholder="Enter a new task">
+	<button id="add-task-btn">Add Task</button>
+	<ul id="task-list">
+		<!-- Tasks will be rendered here -->
+        <li class="task">
+            <input type="checkbox" class="task-checkbox">
+            <span>Meet with client</span>
+            <button class="task-delete-btn">Delete</button>
+          </li>
+          <li class="task">
+            <input type="checkbox" class="task-checkbox">
+            <span>Complete project report</span>
+            <button class="task-delete-btn">Delete</button>
+          </li>
+          <li class="task">
+            <input type="checkbox" class="task-checkbox">
+            <span>Finish coding task</span>
+            <button class="task-delete-btn">Delete</button>
+          </li>
+          <!-- More tasks will be rendered here -->
+	</ul>
+	<script>
+        // Select elements
+const taskInput = document.querySelector('#task-input');
+const addTaskBtn = document.querySelector('#add-task-btn');
+const taskList = document.querySelector('#task-list');
+
+// Local storage
+const storage = window.localStorage;
+const tasks = storage.getItem('tasks') ? JSON.parse(storage.getItem('tasks')) : [];
+
+// Render tasks
+tasks.forEach((task) => {
+	const taskHTML = `
+		<li class="task">
+			<input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}>
+			<span>${task.text}</span>
+			<button class="task-delete-btn">Delete</button>
+		</li>
+	`;
+	taskList.insertAdjacentHTML('beforeend', taskHTML);
+});
+
+// Add task functionality
+addTaskBtn.addEventListener('click', () => {
+	const taskText = taskInput.value.trim();
+	if (taskText) {
+		const task = { text: taskText, completed: false };
+		tasks.push(task);
+		storage.setItem('tasks', JSON.stringify(tasks));
+		taskInput.value = '';
+		renderTask(task);
+	}
+});
+
+// Delete task functionality
+taskList.addEventListener('click', (e) => {
+	if (e.target.classList.contains('task-delete-btn')) {
+		const taskToDelete = e.target.closest('.task');
+		const taskIndex = tasks.findIndex((task) => task.text === taskToDelete.querySelector('span').textContent);
+		tasks.splice(taskIndex, 1);
+		storage.setItem('tasks', JSON.stringify(tasks));
+		taskToDelete.remove();
+	}
+});
+
+// Mark task as completed functionality
+taskList.addEventListener('change', (e) => {
+	if (e.target.classList.contains('task-checkbox')) {
+		const taskToComplete = e.target.closest('.task');
+		const taskIndex = tasks.findIndex((task) => task.text === taskToComplete.querySelector('span').textContent);
+		tasks[taskIndex].completed = e.target.checked;
+		storage.setItem('tasks', JSON.stringify(tasks));
+	}
+});
+
+// Render task function
+function renderTask(task) {
+	const taskHTML = `
+		<li class="task">
+			<input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}>
+			<span>${task.text}</span>
+			<button class="task-delete-btn">Delete</button>
+		</li>
+	`;
+	taskList.insertAdjacentHTML('beforeend', taskHTML);
+}
+
+    </script>
+</body>
+</html>

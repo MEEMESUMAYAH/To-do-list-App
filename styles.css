@@ -1,0 +1,52 @@
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f02af0fa;
+	padding-left: 350px;
+	box-sizing: border-box;
+	
+}
+
+#task-input {
+	width: 50%;
+	padding:5px;
+	margin-bottom: 10px;
+	border: 2px solid #ccc;
+}
+
+#add-task-btn {
+	background-color: #4CAF50;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+#task-list {
+	list-style-type:none;;
+	margin:0;
+	padding: 10px;
+}
+
+.task {
+	margin-bottom: 20px;
+	padding: 10px;
+	border-bottom: 1px solid #db13c1;
+}
+
+.task:last-child {
+	border: bottom 2px;;
+}
+
+.task-checkbox {
+	margin-right: 10px;
+}
+
+.task-delete-btn {
+	background-color: red;
+	color: fff;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
